@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Charts Dashboard</title>
+
+    <!-- amCharts 5 -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
+
+    <!-- Tailwind for Legend Hint (page-scoped) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Page-level data sources (optional) -->
+    <script id="charts-config" type="application/json">
+      {
+        "datasetsSrc": "chartsData.bundle.json",
+        "baseConfigsSrc": "chartConfigs.bundle.json"
+      }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      body { font-family: 'Poppins', sans-serif; margin: 0; padding: 16px; background-color: #f8f9fa; }
+      h2 { font-weight: 600; font-size: 18px; margin: 24px 0 8px; color: #2c3e50; }
+      .chart-container { background-color: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,.05); padding: 16px; margin-bottom: 24px; }
+      .amchart { width: 100%; height: 400px; }
+      button { margin-bottom: 16px; padding: 8px 14px; border-radius: 6px; border: 1px solid #ddd; background-color: #4361ee; color: #fff; cursor: pointer; font-weight: 500; transition: background-color .2s; }
+      button:hover { background-color: #3a0ca3; }
+      hr { margin: 40px 0; border: none; border-top: 1px solid #eaeaea; }
+      .option-cotainer { display: flex; justify-content: end; margin-bottom: 10px; }
+      #countryPeriodSelect { width: 100px; padding: 6px; border-radius: 4px; border: 1px solid #ddd; }
+      /* default: hide LINE chart container */
+      #earnings-line[hidden] { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <!-- ================== TOGGLE CHART (bar <-> line) ================== -->
+    <!-- Earnings view selector -->
+    <div style="display:flex;gap:8px;align-items:center;margin:8px 0 12px;">
+      <label for="earningsViewSelect" style="font-size:14px;color:#475467;">View:</label>
+      <select id="earningsViewSelect">
+        <option value="bar" selected>Bar</option>
+        <option value="line">Line</option>
+      </select>
+    </div>
+
+    <!-- Earnings – BAR -->
+    <div id="earnings-bar" class="chart-container" data-chart-id="earnings-bar" data-chart-config='{
+      "configKey": "earnings.trends",
+      "type": "bar",
+      "period": "yearly",
+      "hideLogo": true,
+      "stacked": true,
+      "seriesStyles": {
+        "subscription": { "color": "#4CC9F0" },
+        "paytoview": { "color": "#4361EE" },
+        "merch": { "color": "#7209B7" },
+        "wishtender": { "color": "#F72585" },
+        "customrequest": { "color": "#3A0CA3" }
+      },
+      "bar": { "widthPercent": 25 },
+      "line": { "strokeWidth": 4 },
+      "axisLabelColor": "#475467",
+      "axisLabelFontSize": "12px",
+      "tooltip": { "aggregated": { "enabled": true, "mode": "codepen", "valuePrefix": "$", "valueSuffix": "" } },
+      "yAxis": { "autoMax": true, "autoMaxBuffer": 0.12, "strict": true },
+      "legentHint": { "enabled": true, "class": "flex flex-wrap justify-center gap-2 mt-3", "itemClass": "inline-flex items-center gap-2 rounded-xl px-3 py-1 text-sm bg-white shadow-sm ring-1 ring-gray-200", "markerClass": "w-3 h-3 rounded-full", "labelClass": "text-gray-700" }
+    }'>
+      <div class="amchart" data-role="chart"></div>
+    </div>
+
+    <!-- Earnings – LINE (hidden by default) -->
+    <div id="earnings-line" class="chart-container" data-chart-id="earnings-line" data-chart-config='{
+      "configKey": "earnings.trends",
+      "type": "line",
+      "period": "yearly",
+      "hideLogo": true,
+      "stacked": true,
+      "seriesStyles": {
+        "subscription": { "color": "#4CC9F0" },
+        "paytoview": { "color": "#4361EE" },
+        "merch": { "color": "#7209B7" },
+        "wishtender": { "color": "#F72585" },
+        "customrequest": { "color": "#3A0CA3" }
+      },
+      "bar": { "widthPercent": 25 },
+      "line": { "strokeWidth": 4 },
+      "axisLabelColor": "#475467",
+      "axisLabelFontSize": "12px",
+      "tooltip": { "aggregated": { "enabled": true, "mode": "codepen", "valuePrefix": "$", "valueSuffix": "" } },
+      "yAxis": { "autoMax": true, "autoMaxBuffer": 0.12, "strict": true },
+      "legentHint": { "enabled": true, "class": "flex flex-wrap justify-center gap-2 mt-3", "itemClass": "inline-flex items-center gap-2 rounded-xl px-3 py-1 text-sm bg-white shadow-sm ring-1 ring-gray-200", "markerClass": "w-3 h-3 rounded-full", "labelClass": "text-gray-700" }
+    }' hidden>
+      <div class="amchart" data-role="chart"></div>
+    </div>
+
+    <hr>
+
+    <!-- ================== DONUT CHART ================== -->
+    <h2>Revenue Distribution</h2>
+    <div class="chart-container" data-chart-id="donut-example" data-chart-config='{
+      "configKey": "donut.example",
+      "type": "donut",
+      "period": "yearly",
+      "hideLogo": true,
+      "seriesStyles": {
+        "subscription": { "color": "#4CC9F0" },
+        "paytoview": { "color": "#4361EE" },
+        "merch": { "color": "#7209B7" },
+        "wishtender": { "color": "#F72585" },
+        "customrequest": { "color": "#3A0CA3" }
+      },
+      "categoryKeyMap": {
+        "Subscription": "subscription",
+        "Pay to view": "paytoview",
+        "Merch": "merch",
+        "Wishtender": "wishtender",
+        "Custom request": "customrequest"
+      },
+      "donut": { "widthPercent": 40 },
+      "labelFontSize": 25,
+      "tooltip": { "color": "#344054" },
+      "legentHint": { "enabled": true, "class": "flex flex-wrap justify-center gap-2 mt-3", "itemClass": "inline-flex items-center gap-2 rounded-xl px-3 py-1 text-sm bg-white shadow-sm ring-1 ring-gray-200", "markerClass": "w-3 h-3 rounded-full", "labelClass": "text-gray-700" }
+    }'>
+      <div class="amchart" data-role="chart"></div>
+    </div>
+
+    <hr>
+
+    <!-- ================== SIMPLE LINE (shadow) ================== -->
+    <h2>Subscriber Growth</h2>
+    <div class="chart-container" data-chart-id="line-separate" data-chart-config='{
+      "configKey": "subscribers.newline",
+      "type": "line-shadow",
+      "period": "yearly",
+      "hideLogo": true,
+      "seriesLabels": { "sub": "sub" },
+      "seriesStyles": { "sub": { "color": "#FF6B6B" } },
+      "line": { "strokeWidth": 4 },
+      "legentHint": { "enabled": false }
+    }'>
+      <div class="amchart" data-role="chart"></div>
+    </div>
+
+    <hr>
+
+    <!-- ================== WORLD MAP ================== -->
+    <h2>Global Presence</h2>
+    <div class="chart-container" data-chart-id="world-map" data-chart-config='{
+      "configKey": "world.map",
+      "type": "map",
+      "period": "yearly",
+      "hideLogo": true,
+      "groupColors": {
+        "Sweden": "#FF6B6B",
+        "Russia": "#4ECDC4",
+        "China": "#556270",
+        "Philippines": "#FFD93D",
+        "United States of America": "#6A4C93",
+        "India": "#1A535C"
+      },
+      "palette": ["#FF6B6B","#4ECDC4","#556270","#FFD93D","#6A4C93","#1A535C"],
+      "tooltip": { "color": "#344054", "valuePrefix": "USD ", "valueSuffix": "" },
+      "legentHint": { "enabled": true, "class": "flex flex-wrap justify-center gap-2 mt-3", "itemClass": "inline-flex items-center gap-2 rounded-xl px-3 py-1 text-sm bg-white shadow-sm ring-1 ring-gray-200", "markerClass": "w-3 h-3 rounded-full", "labelClass": "text-gray-700" }
+    }'>
+      <div class="amchart" data-role="chart"></div>
+    </div>
+
+    <hr>
+
+    <!-- ================== COUNTRY VISITS ================== -->
+    <h2>Country Visits</h2>
+    <div class="option-cotainer">
+      <div>
+        <select id="countryPeriodSelect">
+          <option value="yearly" selected>Year</option>
+          <option value="monthly">Month</option>
+          <option value="weekly">Week</option>
+        </select>
+      </div>
+    </div>
+    <div class="chart-container" data-chart-id="country-visits" data-chart-config='{
+      "configKey": "countries.visits",
+      "type": "column-with-icons",
+      "period": "yearly",
+      "hideLogo": true,
+      "bar": { "widthPercent": 10, "color": "#4CC9F0" },
+      "color": {
+        "us":"#4CC9F0",
+        "uk":"#4361EE",
+        "japan":"#7209B7",
+        "germany":"#F72585",
+        "france":"#3A0CA3",
+        "india":"#F39C12",
+        "spain":"#2ECC71",
+        "netherlands":"#E67E22",
+        "canada":"#95A5A6"
+      },
+      "legentHint": { "enabled": true, "class": "flex flex-wrap justify-center gap-2 mt-3", "itemClass": "inline-flex items-center gap-2 rounded-xl px-3 py-1 text-sm bg-white shadow-sm ring-1 ring-gray-200", "markerClass": "w-3 h-3 rounded-full", "labelClass": "text-gray-700" }
+    }'>
+      <div class="amchart" data-role="chart"></div>
+    </div>
+
+    <!-- Page logic -->
+    <script src="/index2.js"></script>
+  </body>
+</html>
