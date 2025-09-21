@@ -42,15 +42,38 @@
 
     <hr class="my-10 border-gray-200" />
 
-    <!-- Heatmap as Global Presence alternative (ApexCharts does not support maps) -->
+    <!-- Global Presence (AG Charts Map) -->
     <section class="mt-6 w-full">
-      <BaseApexChart
-        title="Global Presence (Heatmap)"
-        type="heatmap"
-        :series="presenceHeatmapSeries"
-        :options="presenceHeatmapOptions"
-        :height="420"
-      />
+      <div class="bg-white rounded-xl p-4 shadow">
+        <div class="text-xl font-semibold mb-2">Global Presence</div>
+        <AgWorldMap :height="420" />
+        <div class="flex flex-wrap justify-center gap-2 mt-3">
+          <div class="inline-flex items-center gap-2 rounded-xl px-3 py-1 text-sm bg-white shadow-sm ring-1 ring-gray-200">
+            <span class="w-3 h-3 rounded-full" style="background-color:#FF6B6B"></span>
+            <span class="text-gray-700">Sweden</span>
+          </div>
+          <div class="inline-flex items-center gap-2 rounded-xl px-3 py-1 text-sm bg-white shadow-sm ring-1 ring-gray-200">
+            <span class="w-3 h-3 rounded-full" style="background-color:#4ECDC4"></span>
+            <span class="text-gray-700">Russia</span>
+          </div>
+          <div class="inline-flex items-center gap-2 rounded-xl px-3 py-1 text-sm bg-white shadow-sm ring-1 ring-gray-200">
+            <span class="w-3 h-3 rounded-full" style="background-color:#556270"></span>
+            <span class="text-gray-700">China</span>
+          </div>
+          <div class="inline-flex items-center gap-2 rounded-xl px-3 py-1 text-sm bg-white shadow-sm ring-1 ring-gray-200">
+            <span class="w-3 h-3 rounded-full" style="background-color:#FFD93D"></span>
+            <span class="text-gray-700">Philippines</span>
+          </div>
+          <div class="inline-flex items-center gap-2 rounded-xl px-3 py-1 text-sm bg-white shadow-sm ring-1 ring-gray-200">
+            <span class="w-3 h-3 rounded-full" style="background-color:#6A4C93"></span>
+            <span class="text-gray-700">United States of America</span>
+          </div>
+          <div class="inline-flex items-center gap-2 rounded-xl px-3 py-1 text-sm bg-white shadow-sm ring-1 ring-gray-200">
+            <span class="w-3 h-3 rounded-full" style="background-color:#1A535C"></span>
+            <span class="text-gray-700">India</span>
+          </div>
+        </div>
+      </div>
     </section>
 
     <hr class="my-10 border-gray-200" />
@@ -81,6 +104,7 @@
 import { ref, computed } from 'vue';
 import BaseApexChart from '../components/BaseApexChart.vue';
 import ToggleApexChart from '../components/ToggleApexChart.vue';
+import AgWorldMap from '../components/AgWorldMap.vue';
 
 // Earnings (Bar / Line) data and options
 const earningsCategories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
@@ -142,20 +166,7 @@ const subscribersOptions = ref({
   colors: ['#FF6B6B'],
 });
 
-// Heatmap: Global Presence alternative
-const countries = ['Sweden', 'Russia', 'China', 'Philippines', 'USA', 'India'];
-const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
-const presenceHeatmapSeries = ref(
-  countries.map((country) => ({
-    name: country,
-    data: months.map((m) => ({ x: m, y: Math.floor(Math.random() * 100) }))
-  }))
-);
-const presenceHeatmapOptions = ref({
-  plotOptions: { heatmap: { shadeIntensity: 0.5, radius: 4 } },
-  dataLabels: { enabled: false },
-  colors: ['#008FFB'],
-});
+// (Removed) ApexCharts heatmap previously used as a placeholder for Global Presence.
 
 // Country Visits: Column chart
 const countryVisitsPeriod = ref('yearly');

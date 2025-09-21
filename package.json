@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.13",
+    "ag-charts-enterprise": "^12.2.0",
+    "ag-charts-vue3": "^12.2.0",
     "apexcharts": "^5.3.5",
     "vue": "^3.5.21",
     "vue-router": "^4.5.1",
