@@ -46,7 +46,7 @@
     <section class="mt-6 w-full">
       <div class="bg-white rounded-xl p-4 shadow">
         <div class="text-xl font-semibold mb-2">Global Presence</div>
-        <AgWorldMap :height="420" />
+        <AmWorldMap :height="420" :sales-by-country="worldSales" />
         <div class="flex flex-wrap justify-center gap-2 mt-3">
           <div class="inline-flex items-center gap-2 rounded-xl px-3 py-1 text-sm bg-white shadow-sm ring-1 ring-gray-200">
             <span class="w-3 h-3 rounded-full" style="background-color:#FF6B6B"></span>
@@ -104,7 +104,7 @@
 import { ref, computed } from 'vue';
 import BaseApexChart from '../components/BaseApexChart.vue';
 import ToggleApexChart from '../components/ToggleApexChart.vue';
-import AgWorldMap from '../components/AgWorldMap.vue';
+import AmWorldMap from '../components/AmWorldMap.vue';
 
 // Earnings (Bar / Line) data and options
 const earningsCategories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
@@ -167,6 +167,16 @@ const subscribersOptions = ref({
 });
 
 // (Removed) ApexCharts heatmap previously used as a placeholder for Global Presence.
+
+// Data for Global Presence map (by country name)
+const worldSales = {
+  'Sweden': 125000,
+  'Russia': 98000,
+  'China': 210000,
+  'Philippines': 45000,
+  'United States of America': 275000,
+  'India': 155000,
+};
 
 // Country Visits: Column chart
 const countryVisitsPeriod = ref('yearly');
