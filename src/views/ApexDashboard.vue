@@ -1,12 +1,12 @@
 <template>
   <div class="min-h-screen bg-gray-100 p-6 md:p-10">
-    <h1 class="text-2xl md:text-3xl font-semibold text-slate-800">Charts Dashboard (ApexCharts)</h1>
+    <h1 class="text-2xl md:text-3xl font-semibold text-slate-800">Charts Dashboard</h1> <!-- ApexCharts -->
 
     <!-- Toggleable Earnings Chart (Bar <-> Line) -->
     <section class="mt-8">
       <ToggleApexChart
         title="Earnings"
-        class="w-full md:w-2/3"
+        class="w-full"
         :types="['bar','line']"
         initial-type="bar"
         :series-by-type="earningsSeriesByType"
@@ -17,7 +17,7 @@
     <hr class="my-10 border-gray-200" />
 
     <!-- Donut: Revenue Distribution -->
-    <section class="mt-6 w-full md:w-2/3">
+    <section class="mt-6 w-full">
       <BaseApexChart
         title="Revenue Distribution"
         type="donut"
@@ -30,7 +30,7 @@
     <hr class="my-10 border-gray-200" />
 
     <!-- Simple Line with Shadow: Subscriber Growth -->
-    <section class="mt-6 w-full md:w-2/3">
+    <section class="mt-6 w-full">
       <BaseApexChart
         title="Subscriber Growth"
         type="line"
@@ -43,7 +43,7 @@
     <hr class="my-10 border-gray-200" />
 
     <!-- Heatmap as Global Presence alternative (ApexCharts does not support maps) -->
-    <section class="mt-6 w-full md:w-2/3">
+    <section class="mt-6 w-full">
       <BaseApexChart
         title="Global Presence (Heatmap)"
         type="heatmap"
@@ -56,7 +56,7 @@
     <hr class="my-10 border-gray-200" />
 
     <!-- Country Visits: Column with colors -->
-    <section class="mt-6 w-full md:w-2/3">
+    <section class="mt-6 w-full">
       <div class="option-cotainer flex justify-end mb-2">
         <div>
           <select id="countryPeriodSelect" v-model="countryVisitsPeriod" class="border rounded px-2 py-1 text-sm">

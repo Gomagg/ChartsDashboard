@@ -5,8 +5,7 @@
         <div class="flex h-14 items-center justify-between">
           <div class="flex items-center gap-6">
             <h1 class="text-lg font-semibold text-slate-800">Charts App</h1>
-            <router-link class="text-slate-600 hover:text-slate-900" to="/">Home</router-link>
-            <router-link class="text-slate-600 hover:text-slate-900" to="/apex">Apex Dashboard</router-link>
+            <router-link class="text-slate-600 hover:text-slate-900" to="/apex">Dashboard</router-link>
           </div>
         </div>
       </div>
@@ -18,6 +17,16 @@
 </template>
 
 <script setup>
-// Router shell only
+import { onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+
+const router = useRouter();
+const route = useRoute();
+
+onMounted(() => {
+  if (route.path === '/') {
+    router.replace('/apex');
+  }
+});
 </script>
   

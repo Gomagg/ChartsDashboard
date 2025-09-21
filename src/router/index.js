@@ -3,13 +3,17 @@ import { createRouter, createWebHistory } from 'vue-router';
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: () => import('../views/HomeView.vue'),
+    redirect: '/apex',
   },
   {
     path: '/apex',
     name: 'ApexDashboard',
     component: () => import('../views/ApexDashboard.vue'),
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    component: () => import('../views/HomeView.vue'),
   },
 ];
 
